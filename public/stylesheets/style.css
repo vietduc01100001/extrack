@@ -1,8 +1,129 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-size: 150%;
+  margin: 0 auto;
+  padding: 0;
 }
 
-a {
-  color: #00B7FF;
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.title-bar {
+  background-color: rgb(66, 133, 244);
+  padding: 2% 0;
+}
+
+.title-bar p {
+  color: white;
+  font-size: 150%;
+  padding-left: 5%;
+}
+
+.content {
+  font-size: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.input-area, .input-area p {
+  margin-top: 12px;
+}
+
+.input-area input, .input-area button {
+  font-size: 70%;
+}
+
+.input-area input {
+  display: block;
+  margin-top: 2px;
+  margin-bottom: 3px;
+}
+
+.output-area {
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.output-area p {
+  margin-top: 12px;
+}
+
+.input-area input[type=text], .input-area input[type=number], .input-area input[type=password] {
+  background-color: white;
+  border: 1px solid rgb(66, 133, 244);
+  border-radius: 3px;
+  padding: 5px 0 5px 2%;
+}
+
+.grey-button, .blue-button, .red-button {
+  border-radius: 5px;
+  margin: 1px 0;
+  padding: 7px 10px;
+}
+
+.grey-button:hover, .blue-button:hover, .red-button:hover {
+  transition-duration: 0.4s;
+}
+
+.grey-button {
+  background-color: #DDD;
+  border: 2px solid grey;
+}
+
+.grey-button:hover {
+  color: grey;
+  background-color: white;
+  border: 2px solid grey;
+}
+
+.blue-button {
+  color: white;
+  background-color: rgb(66, 133, 244);
+  border: 2px solid rgb(66, 133, 244);
+}
+
+.blue-button:hover {
+  color: rgb(66, 133, 244);
+  background-color: white;
+  border: 2px solid rgb(66, 133, 244);
+}
+
+.red-button {
+  color: white;
+  background-color: red;
+  border: 2px solid red;
+}
+
+.red-button:hover {
+  color: red;
+  background-color: white;
+}
+
+.error-message {
+  color: red;
+  font-style: italic;
+}
+
+.item-list {
+  font-size: 70%;
+  margin-top: 12px;
+  margin-bottom: 3px;
+}
+
+.item {
+  border: 1px solid rgb(66, 133, 244);
+  border-radius: 3px;
+  max-width: 480px;
+  margin-top: 2px;
+  padding: 5px 2%;
+}
+
+.item span {
+  float: right;
+}
+
+.remove a {
+  color: red;
 }

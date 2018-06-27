@@ -19,8 +19,15 @@
     <!-- App content -->
     <div class="content">
       <div class="input-area">
-        <p>Hi, {{ username }}</p>
-        <a href="/logout"><button class="red-button">Logout</button></a>
+        <span class="error-message">{{ errorMessage }}</span>
+        <form method="POST" action="{{ actionUrl }}">
+          <p>Username</p>
+          <input type="text" name="username" value="{{ username }}">
+          <p>Password</p>
+          <input type="password" name="password">
+          <button type="submit" class="blue-button">{{ buttonText }}</button>
+          <a href="/"><button type="button" class="grey-button">Home</button></a>
+        </form>
       </div>
     </div>
     <!-- End App content -->
