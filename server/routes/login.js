@@ -10,66 +10,58 @@ const viewObj = {
     buttonText: 'Login'
 };
 
-// handle GET request
-router.get('/', (req, res) => {
+const doGet = (req, res) => {
     res.render('signup-login', {
         ...viewObj,
-        username: '',
-        errorMessage: ''
+        username: req.username || '',
+        errorMessage: req.errorMessage || ''
     });
-});
+};
 
-// handle POST request
-router.post('/', (req, res) => {
+const doPost = (req, res, next) => {
     const { username, password } = req.body;
     const { isValid, errors } = loginValidator(req.body);
     
     // input is invalid
     if (!isValid) {
-        return res.render('signup-login', {
-            ...viewObj,
-            username,
-            errorMessage: toString(errors)
-        });
+        req.username = username;
+        req.errorMessage = toString(errors);
+        return next();
     };
 
     User.findOne({ username }, (err, user) => {
-        if (err) throw err;
+        if (err) return next(err);
 
         // input username doesn't exist
         if (!user) {
-            res.render('signup-login', {
-                ...viewObj,
-                username,
-                errorMessage: 'Username incorrect.'
-            });
-        }
-        else {
-            user.comparePassword(password)
-                .then(isMatch => {
-
-                    // input password incorrect
-                    if (!isMatch) res.render('signup-login', {
-                        ...viewObj,
-                        username,
-                        errorMessage: 'Password incorrect.'
-                    })
-                    else {
-                        // everything's ok, login
-                        req.session._userId = user._id;
-                        req.session.username = user.username;
-                        req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000;
-
-                        // redirect to index
-                        res.redirect('/');
-                    };
-                })
-                .catch(err => {
-                    throw err;
-                });
+            req.username = username;
+            req.errorMessage = 'Username incorrect';
+            return next();
         };
-    });
+        
+        user.comparePassword(password)
+            .then(isMatch => {
 
-});
+                // input password is incorrect
+                if (!isMatch) {
+                    req.username = username;
+                    req.errorMessage = 'Password incorrect.';
+                    return next();
+                };
+
+                // everything's ok, login
+                req.session._userId = user._id;
+                req.session.username = user.username;
+                req.session.cookie.maxAge = 7 * 24 * 60 * 60 * 1000;
+
+                // redirect to index
+                res.redirect('/');
+            })
+            .catch(err => next(err));
+    });
+};
+
+router.get('/', doGet);
+router.post('/', doPost, doGet);
 
 module.exports = router;

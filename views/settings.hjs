@@ -15,6 +15,7 @@
     <div class="title-bar">
       <span>exTrack</span>
       <span class="float-right">
+        <span class="small-text">{{ username }}</span>
         <a href="/"><i class="fas fa-arrow-circle-left"></i></a>
       </span>
     </div>
@@ -22,14 +23,26 @@
 
     <!-- App content -->
     <div class="content">
+      
+      <!-- Change password -->
+      <p>{{ infoMessage }}</p>
       <p class="error-message">{{ errorMessage }}</p>
-      <form method="POST" action="{{ actionUrl }}">
-        <p>Username:</p>
-        <input type="text" name="username" value="{{ username }}">
-        <p>Password:</p>
-        <input type="password" name="password">
-        <div><button type="submit" class="blue-button">{{ buttonText }}</button></div>
+      <p>Change password:</p>
+      <form method="POST" action="/settings/changepassword">
+        <p class="small-text">Current password:</p>
+        <input type="password" name="currentPassword">
+        <p class="small-text">New password:</p>
+        <input type="password" name="newPassword">
+        <div><button type="submit" class="blue-button">Change</button></div>
       </form>
+      <!-- End Change password -->
+
+      <!-- Logout -->
+      <p><a href="/logout">
+        <button class="red-button">Logout</button>
+      </a></p>
+      <!-- End Logout -->
+      
     </div>
     <!-- End App content -->
 

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type="text/css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
   <title>exTrack</title>
 </head>
 <body>
@@ -12,16 +13,44 @@
 
     <!-- Title bar -->
     <div class="title-bar">
-      <p>exTrack</p>
+      <span>exTrack</span>
+      <span class="float-right">
+        <span class="small-text">{{ username }}</span>
+        <a href="/settings"><i class="fas fa-cog"></i></a>
+      </span>
     </div>
     <!-- End Title bar -->
 
     <!-- App content -->
     <div class="content">
-      <div class="input-area">
-        <p>Hi, {{ username }}</p>
-        <a href="/logout"><button class="red-button">Logout</button></a>
+      
+      <p class="small-text">{{ month }}, {{ year }}</p>
+      
+      <!-- Income -->
+      <div>
+        <a href="#">
+          <button class="big-grey-button">Income: {{ income }}</button>
+        </a>
       </div>
+      <!-- End Income -->
+      
+      <!-- Expenses -->
+      <div>
+        <a href="#">
+          <button class="big-red-button">Expenses: {{ expenses }}</button>
+        </a>
+        <div id="expense-list" class="padding-left"></div>
+      </div>
+      <!-- End Expenses -->
+
+      <!-- Balance -->
+      <div>
+        <a href="#">
+          <button class="big-blue-button">Balance: {{ balance }}</button>
+        </a>
+      </div>
+      <!-- End Balance -->
+      
     </div>
     <!-- End App content -->
 

@@ -10,39 +10,33 @@ const viewObj = {
     buttonText: 'Sign Up'
 };
 
-// handle GET request
-router.get('/', (req, res) => {
+const doGet = (req, res) => {
     res.render('signup-login', {
         ...viewObj,
-        username: '',
-        errorMessage: ''
+        username: req.username || '',
+        errorMessage: req.errorMessage || ''
     });
-});
+};
 
-// handle POST request
-router.post('/', (req, res) => {
+const doPost = (req, res, next) => {
     const { username, password } = req.body;
     const { isValid, errors } = signUpValidator(req.body);
 
     // input is invalid
     if (!isValid) {
-        return res.render('signup-login', {
-            ...viewObj,
-            username,
-            errorMessage: toString(errors)
-        });
+        req.username = username;
+        req.errorMessage = toString(errors);
+        return next();
     };
 
     User.findOne({ username }, (err, existingUser) => {
-        if (err) throw err;
+        if (err) return next(err);
 
         // input username exists
         if (existingUser) {
-            return res.render('signup-login', {
-                ...viewObj,
-                username,
-                errorMessage: 'Username already exists.'
-            });
+            req.username = username;
+            req.errorMessage = 'Username already exists.';
+            return next();
         };
 
         // everything's ok, create new user
@@ -57,6 +51,9 @@ router.post('/', (req, res) => {
         // redirect to index
         res.redirect('/');
     });
-});
+};
+
+router.get('/', doGet);
+router.post('/', doPost, doGet);
 
 module.exports = router;
