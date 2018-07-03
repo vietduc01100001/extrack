@@ -22,6 +22,10 @@ a {
   padding: 2% 5%;
 }
 
+.title-bar a:hover {
+  color: #CCC;
+}
+
 .content {
   font-size: 100%;
   padding-left: 5%;
@@ -30,6 +34,10 @@ a {
 
 .content p {
   margin-top: 12px;
+}
+
+.content p a:hover {
+  color: grey;
 }
 
 .float-right {
@@ -106,15 +114,27 @@ a {
   margin-top: 3px;
 }
 
-.content input[type=text], .content input[type=number], .content input[type=password] {
-  display: block;
+.content input, .content select {
   font-size: 70%;
   background-color: white;
   border: 1px solid rgb(66, 133, 244);
   border-radius: 3px;
   margin-top: 2px;
   margin-bottom: 3px;
+}
+
+.content select {
+  padding: 4px 0 5px 2%;
+}
+
+.content input {
+  display: block;
   padding: 5px 0 5px 2%;
+}
+
+div#time-chooser input {
+  display: inline-block;
+  width: 100px;
 }
 
 .item-list {
