@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type="text/css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+  <title>exTrack</title>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Title bar -->
+    <div class="title-bar">
+      <span>exTrack</span>
+      <span class="float-right">
+        <span class="small-text">{{ username }}</span>
+        <a href="/"><i class="fas fa-arrow-circle-left"></i></a>
+      </span>
+    </div>
+    <!-- End Title bar -->
+
+    <!-- App content -->
+    <div class="content">
+
+      <!-- Time chooser bar -->
+      <div id="time-chooser">
+        <form method="POST" action="/expense/{{ category }}">
+          <select id="month" name="month">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <input type="number" name="year" value="{{ year }}">
+          <button type="submit" class="blue-button">Go</button>
+        </form>
+      </div>
+      <!-- End Time chooser bar -->
+
+      <!-- Expense list -->
+      <p>Expenses of {{ category }} in {{ month }}/{{ year }}:</p>
+      <div class="item-list">
+        {{#expenses}}
+          <div class="item">
+            {{ name }}: {{ cost }}
+            <span class="float-right remove">
+              <a href="" onclick="sendExpenseDelReq('{{ category }}', '{{ _id }}')">Remove</a>
+            </span>
+          </div>
+        {{/expenses}}
+      </div>
+      <!-- End Expense list -->
+
+      <div id="add-expense"><a href="/addexpense?category={{ category }}">
+        <button class="blue-button">Add expense</button>
+      </a></div>
+
+    </div>
+    <!-- End App content -->
+
+  </div>
+  <script>
+    // set month selector to the month sent by server
+    document.getElementById('month').value = '{{ month }}';
+    
+    // disable Remove and Add expense when not viewing in this month
+    const d = new Date();
+    if (d.getMonth() + 1 != {{ month }} || d.getFullYear() != {{ year }}) {
+      
+      // disable Remove
+      const removeLinks = document.getElementsByClassName('remove');
+      for (let i = 0; i < removeLinks.length; i++) {
+        removeLinks[i].style.display = 'none';
+      };
+
+      // disable Add expense
+      document.getElementById('add-expense').style.display = 'none';
+    };
+
+    const sendExpenseDelReq = (category, _id) => {
+      const xhr = new XMLHttpRequest();
+      const url = `/expense/${category}/${_id}?month={{ month }}&year={{ year }}`;
+      xhr.open('DELETE', url, true);
+      xhr.send();
+    };
+  </script>
+</body>
+</html>

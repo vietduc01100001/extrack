@@ -26,12 +26,12 @@
       
       <!-- Time bar -->
       <p class="small-text">
-        {{ month }}, {{ year }}
+        {{ strMonth }}, {{ year }}
         <a href="#" onclick="toggleTimeChooser()"><i class="far fa-clock"></i></a>
       </p>
       <div id="time-chooser">
         <form method="POST" action="/">
-          <select name="month">
+          <select id="month" name="month">
             <option value="1">January</option>
             <option value="2">February</option>
             <option value="3">March</option>
@@ -61,18 +61,39 @@
       
       <!-- Expenses -->
       <div>
-        <a href="#">
-          <button class="big-red-button">Expenses: {{ expenses }}</button>
-        </a>
-        <div id="expense-list" class="padding-left"></div>
+        <button class="big-red-button" onclick="toggleExpenseList()">Expenses: {{ totalExpenses }}</button>
+        <div id="expense-list" class="padding-left">
+          <div><a href="/expense/food?month={{ month }}&year={{ year }}">
+            <button class="grey-button">Food: {{ foodExpenses }}</button>
+          </a></div>
+          <div><a href="/expense/house?month={{ month }}&year={{ year }}">
+            <button class="grey-button">House: {{ houseExpenses }}</button>
+          </a></div>
+          <div><a href="/expense/health?month={{ month }}&year={{ year }}">
+            <button class="grey-button">Health: {{ healthExpenses }}</button>
+          </a></div>
+          <div><a href="/expense/transport?month={{ month }}&year={{ year }}">
+            <button class="grey-button">Transport: {{ transportExpenses }}</button>
+          </a></div>
+          <div><a href="/expense/clothes?month={{ month }}&year={{ year }}">
+            <button class="grey-button">Clothes: {{ clothesExpenses }}</button>
+          </a></div>
+          <div><a href="/expense/entertainment?month={{ month }}&year={{ year }}">
+            <button class="grey-button">Entertainment: {{ entertainmentExpenses }}</button>
+          </a></div>
+          <div><a href="/expense/others?month={{ month }}&year={{ year }}">
+            <button class="grey-button">Others: {{ othersExpenses }}</button>
+          </a></div>
+          <div><a href="/addexpense">
+            <button class="blue-button">Add expense</button>
+          </a></div>
+        </div>
       </div>
       <!-- End Expenses -->
 
       <!-- Balance -->
       <div>
-        <a href="#">
-          <button class="big-blue-button">Balance: {{ balance }}</button>
-        </a>
+        <button class="big-blue-button">Balance: {{ balance }}</button>
       </div>
       <!-- End Balance -->
       
@@ -81,12 +102,24 @@
 
   </div>
   <script>
+    // set month selector to the month sent by server
+    document.getElementById('month').value = '{{ month }}';
+
+    // toggle elements on off
     const divTimeChooser = document.getElementById('time-chooser');
+    const divExpenseList = document.getElementById('expense-list');
+    
     divTimeChooser.style.display = 'none';
+    divExpenseList.style.display = 'none';
 
     const toggleTimeChooser = () => {
       if (divTimeChooser.style.display === 'none') divTimeChooser.style.display = 'block';
       else if (divTimeChooser.style.display === 'block') divTimeChooser.style.display = 'none';
+    };
+
+    const toggleExpenseList = () => {
+      if (divExpenseList.style.display === 'none') divExpenseList.style.display = 'block';
+      else if (divExpenseList.style.display === 'block') divExpenseList.style.display = 'none';
     };
   </script>
 </body>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" type="text/css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+  <title>exTrack</title>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Title bar -->
+    <div class="title-bar">
+      <span>exTrack</span>
+      <span class="float-right">
+        <span class="small-text">{{ username }}</span>
+        <a href="/"><i class="fas fa-arrow-circle-left"></i></a>
+      </span>
+    </div>
+    <!-- End Title bar -->
+
+    <!-- App content -->
+    <div class="content">
+      <p>Add expense:</p>
+      <p class="error-message">{{ errorMessage }}</p>
+      <form method="POST" action="/addexpense">
+        <p class="small-text">Name:</p>
+        <input type="text" name="name" value="{{ name }}">
+        <p class="small-text">Cost:</p>
+        <input type="number" name="cost" value="{{ cost }}">
+        <p class="small-text">Category:</p>
+        <select id="category" name="category">
+          <option value="food">Food</option>
+          <option value="house">House</option>
+          <option value="health">Health</option>
+          <option value="transport">Transport</option>
+          <option value="clothes">Clothes</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="others">Others</option>
+        </select>
+        <div><button type="submit" class="blue-button">Add</button></div>
+      </form>
+    </div>
+    <!-- End App content -->
+
+  </div>
+  <script>
+    // set month selector to the month sent by server
+    document.getElementById('category').value = '{{ category }}';
+  </script>
+</body>
+</html>
