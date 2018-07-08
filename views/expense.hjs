@@ -61,9 +61,24 @@
       </div>
       <!-- End Expense list -->
 
+      <!-- Add expense button -->
       <div id="add-expense"><a href="/addexpense?category={{ category }}">
         <button class="blue-button">Add expense</button>
       </a></div>
+      <!-- End Add expense button -->
+
+      <!-- Quick link -->
+      <p>Quick link:</p>
+      <select id="quick-link" onchange="redirect()">
+        <option value="food">Food</option>
+        <option value="house">House</option>
+        <option value="health">Health</option>
+        <option value="transport">Transport</option>
+        <option value="clothes">Clothes</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="others">Others</option>
+      </select>
+      <!-- End Quick link -->
 
     </div>
     <!-- End App content -->
@@ -72,6 +87,10 @@
   <script>
     // set month selector to the month sent by server
     document.getElementById('month').value = '{{ month }}';
+
+    // set quick link selector to this site
+    const quickLink = document.getElementById('quick-link');
+    quickLink.value = '{{ category }}';
     
     // disable Remove and Add expense when not viewing in this month
     const d = new Date();
@@ -92,6 +111,11 @@
       const url = `/expense/${category}/${_id}?month={{ month }}&year={{ year }}`;
       xhr.open('DELETE', url, true);
       xhr.send();
+    };
+
+    const redirect = () => {
+      const url = '/expense/' + quickLink.value + '?month={{ month }}&year={{ year }}';
+      window.location.href = url;
     };
   </script>
 </body>
