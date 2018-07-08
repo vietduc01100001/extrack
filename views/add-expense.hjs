@@ -27,7 +27,7 @@
       <p class="error-message">{{ errorMessage }}</p>
       <form method="POST" action="/addexpense">
         <p class="small-text">Name:</p>
-        <input type="text" name="name" value="{{ name }}">
+        <input type="text" name="name" value="{{ name }}" autocomplete="off">
         <p class="small-text">Cost:</p>
         <input type="number" name="cost" value="{{ cost }}">
         <p class="small-text">Category:</p>
