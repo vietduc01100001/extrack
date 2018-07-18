@@ -75,8 +75,8 @@
           <div><a href="/expense/transport?month={{ month }}&year={{ year }}">
             <button class="grey-button">Transport: {{ transportExpenses }}</button>
           </a></div>
-          <div><a href="/expense/clothes?month={{ month }}&year={{ year }}">
-            <button class="grey-button">Clothes: {{ clothesExpenses }}</button>
+          <div><a href="/expense/studying?month={{ month }}&year={{ year }}">
+            <button class="grey-button">Studying: {{ studyingExpenses }}</button>
           </a></div>
           <div><a href="/expense/entertainment?month={{ month }}&year={{ year }}">
             <button class="grey-button">Entertainment: {{ entertainmentExpenses }}</button>

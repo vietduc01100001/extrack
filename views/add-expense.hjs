@@ -36,7 +36,7 @@
           <option value="house">House</option>
           <option value="health">Health</option>
           <option value="transport">Transport</option>
-          <option value="clothes">Clothes</option>
+          <option value="studying">Studying</option>
           <option value="entertainment">Entertainment</option>
           <option value="others">Others</option>
         </select>

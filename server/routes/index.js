@@ -30,7 +30,7 @@ const doGet = async (req, res, next) => {
     const houseExpensesDocs = await findExpenses(expense.House, req).exec();
     const healthExpensesDocs = await findExpenses(expense.Health, req).exec();
     const transportExpensesDocs = await findExpenses(expense.Transport, req).exec();
-    const clothesExpensesDocs = await findExpenses(expense.Clothes, req).exec();
+    const studyingExpensesDocs = await findExpenses(expense.Studying, req).exec();
     const entertainmentExpensesDocs = await findExpenses(expense.Entertainment, req).exec();
     const othersExpensesDocs = await findExpenses(expense.Others, req).exec();
     
@@ -39,7 +39,7 @@ const doGet = async (req, res, next) => {
     const houseExpenses = countTotalExpenses(houseExpensesDocs, 'house');
     const healthExpenses = countTotalExpenses(healthExpensesDocs, 'health');
     const transportExpenses = countTotalExpenses(transportExpensesDocs, 'transport');
-    const clothesExpenses = countTotalExpenses(clothesExpensesDocs, 'clothes');
+    const studyingExpenses = countTotalExpenses(studyingExpensesDocs, 'studying');
     const entertainmentExpenses = countTotalExpenses(entertainmentExpensesDocs, 'entertainment');
     const othersExpenses = countTotalExpenses(othersExpensesDocs, 'others');
 
@@ -53,7 +53,7 @@ const doGet = async (req, res, next) => {
         houseExpenses,
         healthExpenses,
         transportExpenses,
-        clothesExpenses,
+        studyingExpenses,
         entertainmentExpenses,
         othersExpenses,
         get totalExpenses() {
@@ -61,7 +61,7 @@ const doGet = async (req, res, next) => {
                 + this.houseExpenses
                 + this.healthExpenses
                 + this.transportExpenses
-                + this.clothesExpenses
+                + this.studyingExpenses
                 + this.entertainmentExpenses
                 + this.othersExpenses;
         },

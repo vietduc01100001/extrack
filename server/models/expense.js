@@ -13,6 +13,6 @@ exports.Food = mongoose.model('expenses.food', expenseSchema);
 exports.House = mongoose.model('expenses.house', expenseSchema);
 exports.Health = mongoose.model('expenses.health', expenseSchema);
 exports.Transport = mongoose.model('expenses.transport', expenseSchema);
-exports.Clothes = mongoose.model('expenses.clothes', expenseSchema);
+exports.Studying = mongoose.model('expenses.studying', expenseSchema);
 exports.Entertainment = mongoose.model('expenses.entertainment', expenseSchema);
 exports.Others = mongoose.model('expenses.others', expenseSchema);

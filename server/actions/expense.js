@@ -5,7 +5,7 @@ exports.getExpense = (category) => {
     if (category === 'house') return expense.House;
     if (category === 'health') return expense.Health;
     if (category === 'transport') return expense.Transport;
-    if (category === 'clothes') return expense.Clothes;
+    if (category === 'studying') return expense.Studying;
     if (category === 'entertainment') return expense.Entertainment;
     if (category === 'others') return expense.Others;
 };
@@ -15,7 +15,7 @@ exports.createExpense = (category, doc) => {
     if (category === 'house') return new expense.House(doc);
     if (category === 'health') return new expense.Health(doc);
     if (category === 'transport') return new expense.Transport(doc);
-    if (category === 'clothes') return new expense.Clothes(doc);
+    if (category === 'studying') return new expense.Studying(doc);
     if (category === 'entertainment') return new expense.Entertainment(doc);
     if (category === 'others') return new expense.Others(doc);
 };
