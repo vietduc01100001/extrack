@@ -12,6 +12,10 @@ module.exports = (data) => {
         errors.cost = 'Cost is required.';
     };
 
+    if (Validator.isEmpty(data.category || '')) {
+        errors.category = 'Category is required.';
+    }
+
     return {
         errors,
         isValid: isEmpty(errors),
