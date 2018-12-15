@@ -6,11 +6,11 @@ module.exports = (data) => {
 
     if (Validator.isEmpty(data.name || '')) {
         errors.name = 'Name is required.';
-    };
+    }
 
     if (Validator.isEmpty(data.cost || '')) {
         errors.cost = 'Cost is required.';
-    };
+    }
 
     if (Validator.isEmpty(data.category || '')) {
         errors.category = 'Category is required.';

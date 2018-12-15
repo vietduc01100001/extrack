@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
         year: req.year
     };
 
-    Income.findOne(findCondition, (err, income) => {
+    Income.findOne(findCondition, '_id', (err, income) => {
         if (err) return next(err);
 
         // if this month income hasn't been created, do it
@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
                 _user_id: req.session._userId
             });
             income.save();
-        };
+        }
 
         next();
     });

@@ -27,8 +27,8 @@ const doPost = (req, res, next) => {
         req.category = category;
         req.errorMessage = toString(errors);
         return next();
-    };
-    
+    }
+
     const expense = createExpense(category, {
         name,
         cost,

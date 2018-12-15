@@ -21,13 +21,13 @@ const doGet = (req, res) => {
 const doPost = (req, res, next) => {
     const { username, password } = req.body;
     const { isValid, errors } = loginValidator(req.body);
-    
+
     // input is invalid
     if (!isValid) {
         req.username = username;
         req.errorMessage = toString(errors);
         return next();
-    };
+    }
 
     User.findOne({ username }, (err, user) => {
         if (err) return next(err);
@@ -37,8 +37,8 @@ const doPost = (req, res, next) => {
             req.username = username;
             req.errorMessage = 'Username incorrect';
             return next();
-        };
-        
+        }
+
         user.comparePassword(password)
             .then(isMatch => {
 
@@ -47,7 +47,7 @@ const doPost = (req, res, next) => {
                     req.username = username;
                     req.errorMessage = 'Password incorrect.';
                     return next();
-                };
+                }
 
                 // everything's ok, login
                 req.session._userId = user._id;

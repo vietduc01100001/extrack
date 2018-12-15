@@ -37,7 +37,7 @@ const doDelete = (req, res, next) => {
     const { month, year } = req.query;
 
     // not allowed to delete expense not in this month
-    if (month != req.month || year != req.year) return next();
+    if (month !== req.month || year !== req.year) return next();
 
     const Expense = getExpense(category);
     Expense.findByIdAndDelete(_id, (err, deletedExpense) => {

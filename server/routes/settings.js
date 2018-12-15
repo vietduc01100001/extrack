@@ -22,11 +22,11 @@ const changePassword = (req, res, next) => {
     if (!isValid) {
         req.errorMessage = toString(errors);
         return next();
-    };
+    }
 
     User.findById(req.session._userId, (err, user) => {
         if (err) return next(err);
-        
+
         user.comparePassword(currentPassword)
             .then(isMatch => {
 
@@ -40,7 +40,7 @@ const changePassword = (req, res, next) => {
                     user.save();
 
                     req.infoMessage = 'Password changed successfully.'
-                };
+                }
 
                 next();
             })

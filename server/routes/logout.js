@@ -8,7 +8,7 @@ const doGet = (req, res, next) => {
             if (err) return next(err);
             res.redirect('/getstarted');
         });
-    };
+    }
 };
 
 router.get('/', doGet);

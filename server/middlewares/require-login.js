@@ -11,5 +11,5 @@ module.exports = (req, res, next) => {
             if (err) next(err);
             res.redirect('/getstarted');
         });
-    };
+    }
 };

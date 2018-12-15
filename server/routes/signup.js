@@ -27,7 +27,7 @@ const doPost = (req, res, next) => {
         req.username = username;
         req.errorMessage = toString(errors);
         return next();
-    };
+    }
 
     User.findOne({ username }, (err, existingUser) => {
         if (err) return next(err);
@@ -37,7 +37,7 @@ const doPost = (req, res, next) => {
             req.username = username;
             req.errorMessage = 'Username already exists.';
             return next();
-        };
+        }
 
         // everything's ok, create new user
         const user = new User({ username, password });

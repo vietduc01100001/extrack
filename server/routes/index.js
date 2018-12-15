@@ -22,7 +22,7 @@ const findExpenses = (model, req) => {
         month: req.month,
         year: req.year
     }).lean();
-}
+};
 
 const doGet = async (req, res, next) => {
     const incomeDoc = await findIncome(req).exec();
@@ -33,7 +33,7 @@ const doGet = async (req, res, next) => {
     const studyingExpensesDocs = await findExpenses(expense.Studying, req).exec();
     const entertainmentExpensesDocs = await findExpenses(expense.Entertainment, req).exec();
     const othersExpensesDocs = await findExpenses(expense.Others, req).exec();
-    
+
     const income = new Income(incomeDoc).money;
     const foodExpenses = countTotalExpenses(foodExpensesDocs, 'food');
     const houseExpenses = countTotalExpenses(houseExpensesDocs, 'house');

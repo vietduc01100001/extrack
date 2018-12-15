@@ -34,7 +34,7 @@ const doPost = (req, res) => {
         if (income) {
             income.money = req.body.money;
             income.save();
-        };
+        }
         res.redirect('/');
     });
 };
