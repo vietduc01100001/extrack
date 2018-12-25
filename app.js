@@ -8,6 +8,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 const database = require('./server/database');
+const axios = require('./server/axios');
 
 const indexRouter = require('./server/routes/index');
 const signUpRouter = require('./server/routes/signup');
@@ -17,6 +18,7 @@ const settingsRouter = require('./server/routes/settings');
 const incomeRouter = require('./server/routes/income');
 const addExpenseRouter = require('./server/routes/add-expense');
 const expenseRouter = require('./server/routes/expense');
+const spendingAssistantRouter = require('./server/routes/spending-assistant');
 
 const app = express();
 
@@ -24,6 +26,9 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 // initialize database
 database.init();
+
+// initialize axios
+axios.init();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -59,6 +64,7 @@ app.use('/settings', settingsRouter);
 app.use('/income', incomeRouter);
 app.use('/addexpense', addExpenseRouter);
 app.use('/expense', expenseRouter);
+app.use('/spending-assistant', spendingAssistantRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
