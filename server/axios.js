@@ -30,8 +30,9 @@ const createInstance = async () => {
     baseURL: process.env.SP_SERVER_URL,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    }
+      'Authorization': `Bearer ${token}`,
+      'Origin': process.env.ORIGIN,
+    },
   }));
 };
 
