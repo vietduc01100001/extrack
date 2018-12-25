@@ -6,7 +6,7 @@ const {
   handleEditPurchaseError,
   handleDeletePurchaseError,
 } = require('./error-handlers');
-const { getFormatDate } = require('./utils');
+const { getCache, deleteCache, getFormatDate } = require('./utils');
 
 const dateFormats = {
   short: { weekday: 'short', month: 'short', day: 'numeric' },
@@ -15,9 +15,9 @@ const dateFormats = {
 
 const getPurchaseList = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get('/purchases?sort=-purchaseDate');
-    if (response.status !== 200) return;
-    const { purchases } = response.data;
+    await getCache('/purchases?sort=-purchaseDate', req, 60);
+    if (req.response.status !== 200) return;
+    const { purchases } = req.response.data;
     res.render('purchase-list', {
       purchases: purchases.map(purchase => ({
         ...purchase,
@@ -32,9 +32,9 @@ const getPurchaseList = async (req, res, next) => {
 
 const getPurchaseDetails = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get(`/purchases/${req.params.id}`);
-    if (response.status !== 200) return;
-    const { purchase } = response.data;
+    await getCache(`/purchases/${req.params.id}`, req);
+    if (req.response.status !== 200) return;
+    const { purchase } = req.response.data;
     res.render('purchase-details', {
       ...purchase,
       dateString: getFormatDate(purchase.purchaseDate, dateFormats.long),
@@ -46,9 +46,9 @@ const getPurchaseDetails = async (req, res, next) => {
 
 const getPurchaseEdit = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get(`/purchases/${req.params.id}`);
-    if (response.status !== 200) return;
-    res.render('purchase-edit', response.data.purchase);
+    await getCache(`/purchases/${req.params.id}`, req);
+    if (req.response.status !== 200) return;
+    res.render('purchase-edit', req.response.data.purchase);
   } catch (err) {
     handlePurchaseError(err, res, next);
   }
@@ -56,9 +56,9 @@ const getPurchaseEdit = async (req, res, next) => {
 
 const getPurchaseDelete = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get(`/purchases/${req.params.id}`);
-    if (response.status !== 200) return;
-    res.render('purchase-delete', response.data.purchase);
+    await getCache(`/purchases/${req.params.id}`, req);
+    if (req.response.status !== 200) return;
+    res.render('purchase-delete', req.response.data.purchase);
   } catch (err) {
     handlePurchaseError(err, res, next);
   }
@@ -69,6 +69,7 @@ const editPurchase = async (req, res, next) => {
     const response = await axios.getInstance().patch(`/purchases/${req.params.id}`, req.body);
     if (response.status !== 200) return;
     res.redirect(`/spending-assistant/purchases/${req.params.id}`);
+    deleteCache(`/purchases/${req.params.id}`);
   } catch (err) {
     handleEditPurchaseError(err, res, next);
   }
@@ -79,6 +80,7 @@ const deletePurchase = async (req, res, next) => {
     const response = await axios.getInstance().delete(`/purchases/${req.params.id}`);
     if (response.status !== 204) return;
     res.redirect('/spending-assistant/purchases');
+    deleteCache(`/purchases/${req.params.id}`);
   } catch (err) {
     handleDeletePurchaseError(err, res, next);
   }

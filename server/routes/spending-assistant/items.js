@@ -13,13 +13,13 @@ const {
   handleDeleteItemError,
 } = require('./error-handlers');
 const { toString } = require('../../utils');
-const { parseCostsToArray } = require('./utils');
+const { getCache, deleteCache, parseCostsToArray } = require('./utils');
 
 const getItemList = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get('/items?sort=-purchaseCount');
-    if (response.status !== 200) return;
-    const { items } = response.data;
+    await getCache('/items?sort=-purchaseCount', req, 60);
+    if (req.response.status !== 200) return;
+    const { items } = req.response.data;
     res.render('item-list', {
       items,
       total: items.length,
@@ -40,9 +40,9 @@ const getItemAdd = (req, res) => {
 
 const getItemDetails = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get(`/items/${req.params.id}`);
-    if (response.status !== 200) return;
-    const { item } = response.data;
+    await getCache(`/items/${req.params.id}`, req);
+    if (req.response.status !== 200) return;
+    const { item } = req.response.data;
     res.render('item-details', {
       ...item,
       costsString: item.costs.join(', ')
@@ -54,10 +54,10 @@ const getItemDetails = async (req, res, next) => {
 
 const getItemPurchase = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get(`/items/${req.params.id}`);
-    if (response.status !== 200) return;
+    await getCache(`/items/${req.params.id}`, req);
+    if (req.response.status !== 200) return;
     res.render('item-purchase', {
-      ...response.data.item,
+      ...req.response.data.item,
       errorMessage: req.errorMessage
     });
   } catch (err) {
@@ -67,9 +67,9 @@ const getItemPurchase = async (req, res, next) => {
 
 const getItemEdit = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get(`/items/${req.params.id}`);
-    if (response.status !== 200) return;
-    const { item } = response.data;
+    await getCache(`/items/${req.params.id}`, req);
+    if (req.response.status !== 200) return;
+    const { item } = req.response.data;
     res.render('item-add-edit', {
       ...item,
       costsString: item.costs.join(','),
@@ -85,9 +85,9 @@ const getItemEdit = async (req, res, next) => {
 
 const getItemDelete = async (req, res, next) => {
   try {
-    const response = await axios.getInstance().get(`/items/${req.params.id}`);
-    if (response.status !== 200) return;
-    res.render('item-delete', response.data.item);
+    await getCache(`/items/${req.params.id}`, req);
+    if (req.response.status !== 200) return;
+    res.render('item-delete', req.response.data.item);
   } catch (err) {
     handleItemError(err, res, next);
   }
@@ -121,12 +121,12 @@ const purchaseItem = async (req, res, next) => {
     return next();
   }
   try {
-    const itemsRes = await axios.getInstance().get(`/items/${req.params.id}`);
-    if (itemsRes.status === 200) {
+    await getCache(`/items/${req.params.id}`, req);
+    if (req.response.status === 200) {
       const requestBody = {
         items: [{
           _id: req.params.id,
-          name: itemsRes.data.item.name,
+          name: req.response.data.item.name,
           cost: parseInt(req.body.cost),
           quantity: parseInt(req.body.quantity)
         }],
@@ -158,6 +158,7 @@ const editItem = async (req, res, next) => {
     const response = await axios.getInstance().patch(`/items/${req.params.id}`, requestBody);
     if (response.status !== 200) return;
     res.redirect(`/spending-assistant/items/${req.params.id}`);
+    deleteCache(`/items/${req.params.id}`);
   } catch (err) {
     handleEditItemError(err, res, next);
   }
@@ -168,6 +169,7 @@ const deleteItem = async (req, res, next) => {
     const response = await axios.getInstance().delete(`/items/${req.params.id}`);
     if (response.status !== 204) return;
     res.redirect('/spending-assistant/items');
+    deleteCache(`/items/${req.params.id}`);
   } catch (err) {
     handleDeleteItemError(err, res, next);
   }
