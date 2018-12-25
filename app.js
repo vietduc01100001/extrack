@@ -1,7 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
+const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -24,17 +24,12 @@ const app = express();
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
-// initialize database
 database.init();
-
-// initialize axios
 axios.init();
 
-// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hjs');
 
-// session setup
 app.use(session({
   secret: process.env.SECRET,
   resave: true,
@@ -44,18 +39,21 @@ app.use(session({
   })
 }));
 
-// other setups
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*'
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ['\'self\''],
+      scriptSrc: ['\'self\'', '\'unsafe-inline\''],
+    },
+  },
+  referrerPolicy: true,
 }));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.disable('x-powered-by');
 
-// routing
 app.use('/', indexRouter);
 app.use('/signup', signUpRouter);
 app.use('/login', loginRouter);
@@ -66,18 +64,14 @@ app.use('/addexpense', addExpenseRouter);
 app.use('/expense', expenseRouter);
 app.use('/spending-assistant', spendingAssistantRouter);
 
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
