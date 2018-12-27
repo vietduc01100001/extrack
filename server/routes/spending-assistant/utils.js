@@ -26,9 +26,15 @@ const getFormatDate = (dateString, options) => {
   return date.toLocaleDateString('en-US', options)
 };
 
+const toTitleCase = (str) => {
+  const strArr = str.split(' ');
+  return strArr.map(s => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()).join(' ');
+};
+
 module.exports = {
   getCache,
   deleteCache,
   parseCostsToArray,
   getFormatDate,
+  toTitleCase,
 };

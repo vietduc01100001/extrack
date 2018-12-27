@@ -13,15 +13,23 @@ const {
   handleDeleteItemError,
 } = require('./error-handlers');
 const { toString } = require('../../utils');
-const { getCache, deleteCache, parseCostsToArray } = require('./utils');
+const {
+  getCache,
+  deleteCache,
+  parseCostsToArray,
+  toTitleCase,
+} = require('./utils');
 
 const getItemList = async (req, res, next) => {
+  const { category } = req.query;
+  if (!category) return res.render('item-categories');
   try {
-    await getCache('/items?sort=-purchaseCount', req, 60);
+    await getCache(`/items?category=${category}&sort=-purchaseCount`, req, 60);
     if (req.response.status !== 200) return;
     const { items } = req.response.data;
     res.render('item-list', {
       items,
+      category: toTitleCase(category),
       total: items.length,
     });
   } catch (err) {
