@@ -9,13 +9,17 @@ const {
 const { getCache, deleteCache, getFormatDate } = require('./utils');
 
 const dateFormats = {
-  short: { weekday: 'short', month: 'short', day: 'numeric' },
-  long: { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' },
+  short: { weekday: 'short', day: 'numeric' },
+  long: { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' },
 };
 
 const getPurchaseList = async (req, res, next) => {
+  const { year, month } = req.query;
+  const query = [];
+  query.push(`year=${year || new Date().getFullYear()}&`);
+  query.push(`month=${month || new Date().getMonth() + 1}&`);
   try {
-    await getCache('/purchases?sort=-purchaseDate', req, 60);
+    await getCache(`/purchases?${query.join('')}sort=-purchaseDate`, req, 60);
     if (req.response.status !== 200) return;
     const { purchases } = req.response.data;
     res.render('purchase-list', {
@@ -24,6 +28,8 @@ const getPurchaseList = async (req, res, next) => {
         dateString: getFormatDate(purchase.purchaseDate, dateFormats.short),
       })),
       total: purchases.length,
+      year,
+      month,
     });
   } catch (err) {
     handlePurchaseListError(err, res, next);
