@@ -19,9 +19,9 @@ const getPurchaseList = async (req, res, next) => {
   query.push(`year=${year || new Date().getFullYear()}&`);
   query.push(`month=${month || new Date().getMonth() + 1}&`);
   try {
-    await getCache(`/purchases?${query.join('')}sort=-purchaseDate`, req, 60);
-    if (req.response.status !== 200) return;
-    const { purchases } = req.response.data;
+    const response = await axios.getInstance().get(`/purchases?${query.join('')}sort=-purchaseDate`);
+    if (response.status !== 200) return;
+    const { purchases } = response.data;
     res.render('purchase-list', {
       purchases: purchases.map(purchase => ({
         ...purchase,

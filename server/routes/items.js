@@ -24,9 +24,9 @@ const getItemList = async (req, res, next) => {
   const { category } = req.query;
   if (!category) return res.render('item-categories');
   try {
-    await getCache(`/items?category=${category}&sort=-purchaseCount`, req, 60);
-    if (req.response.status !== 200) return;
-    const { items } = req.response.data;
+    const response = await axios.getInstance().get(`/items?category=${category}&sort=-purchaseCount`);
+    if (response.status !== 200) return;
+    const { items } = response.data;
     res.render('item-list', {
       items,
       category: toTitleCase(category),
