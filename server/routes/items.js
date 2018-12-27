@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const axios = require('../../axios');
+const axios = require('../axios');
 const {
   validateAddEditItem,
   validatePurchaseItem,
-} = require('../../validations');
+} = require('../validations');
 const {
   handleItemListError,
   handleItemError,
@@ -11,14 +11,14 @@ const {
   handlePurchaseItemError,
   handleEditItemError,
   handleDeleteItemError,
-} = require('./error-handlers');
-const { toString } = require('../../utils');
+} = require('../utils/error-handlers');
 const {
+  toString,
+  toTitleCase,
+  parseCostsToArray,
   getCache,
   deleteCache,
-  parseCostsToArray,
-  toTitleCase,
-} = require('./utils');
+} = require('../utils');
 
 const getItemList = async (req, res, next) => {
   const { category } = req.query;
@@ -116,7 +116,7 @@ const addItem = async (req, res, next) => {
     const response = await axios.getInstance().post('/items', requestBody);
     if (response.status !== 201) return;
     const itemId = response.data.item._id;
-    res.redirect(`/spending-assistant/items/${itemId}`);
+    res.redirect(`/items/${itemId}`);
   } catch (err) {
     handleAddItemError(err, res, next);
   }
@@ -144,7 +144,7 @@ const purchaseItem = async (req, res, next) => {
       const purchasesRes = await axios.getInstance().post('/purchases', requestBody);
       if (purchasesRes.status !== 201) return;
       const purchaseId = purchasesRes.data.purchase._id;
-      res.redirect(`/spending-assistant/purchases/${purchaseId}`);
+      res.redirect(`/purchases/${purchaseId}`);
     }
   } catch (err) {
     handlePurchaseItemError(err, res, next);
@@ -165,7 +165,7 @@ const editItem = async (req, res, next) => {
     };
     const response = await axios.getInstance().patch(`/items/${req.params.id}`, requestBody);
     if (response.status !== 200) return;
-    res.redirect(`/spending-assistant/items/${req.params.id}`);
+    res.redirect(`/items/${req.params.id}`);
     deleteCache(`/items/${req.params.id}`);
   } catch (err) {
     handleEditItemError(err, res, next);
@@ -176,7 +176,7 @@ const deleteItem = async (req, res, next) => {
   try {
     const response = await axios.getInstance().delete(`/items/${req.params.id}`);
     if (response.status !== 204) return;
-    res.redirect('/spending-assistant/items');
+    res.redirect('/items');
     deleteCache(`/items/${req.params.id}`);
   } catch (err) {
     handleDeleteItemError(err, res, next);

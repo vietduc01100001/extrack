@@ -1,2 +1,2 @@
-# extrack
-Your expenses tracker app
+# Spending Assistant
+The Spending Assistant web client

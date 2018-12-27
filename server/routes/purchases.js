@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const axios = require('../../axios');
+const axios = require('../axios');
 const {
   handlePurchaseListError,
   handlePurchaseError,
   handleEditPurchaseError,
   handleDeletePurchaseError,
-} = require('./error-handlers');
-const { getCache, deleteCache, getFormatDate } = require('./utils');
+} = require('../utils/error-handlers');
+const { getCache, deleteCache, getFormatDate } = require('../utils');
 
 const dateFormats = {
   short: { weekday: 'short', day: 'numeric' },
@@ -74,7 +74,7 @@ const editPurchase = async (req, res, next) => {
   try {
     const response = await axios.getInstance().patch(`/purchases/${req.params.id}`, req.body);
     if (response.status !== 200) return;
-    res.redirect(`/spending-assistant/purchases/${req.params.id}`);
+    res.redirect(`/purchases/${req.params.id}`);
     deleteCache(`/purchases/${req.params.id}`);
   } catch (err) {
     handleEditPurchaseError(err, res, next);
@@ -85,7 +85,7 @@ const deletePurchase = async (req, res, next) => {
   try {
     const response = await axios.getInstance().delete(`/purchases/${req.params.id}`);
     if (response.status !== 204) return;
-    res.redirect('/spending-assistant/purchases');
+    res.redirect('/purchases');
     deleteCache(`/purchases/${req.params.id}`);
   } catch (err) {
     handleDeletePurchaseError(err, res, next);
