@@ -78,6 +78,15 @@ const handlePurchaseItemError = (err, res, next) => {
   }
 };
 
+const handlePurchaseStatsError = (err, res, next) => {
+  if (err.response) {
+    res.render('purchase-error', { errorMessage: 'Error fetching purchase stats.' });
+    console.log(err.response.data);
+  } else {
+    next(err);
+  }
+};
+
 module.exports = {
   handleItemListError: _handleListError('Item'),
   handleItemError: _handleDetailsError('Item'),
@@ -86,6 +95,7 @@ module.exports = {
   handleEditItemError: _handleEditError('Item'),
   handleDeleteItemError: _handleDeleteError('Item'),
   handlePurchaseListError: _handleListError('Purchase'),
+  handlePurchaseStatsError,
   handlePurchaseError: _handleDetailsError('Purchase'),
   handleEditPurchaseError: _handleEditError('Purchase'),
   handleDeletePurchaseError: _handleDeleteError('Purchase'),
