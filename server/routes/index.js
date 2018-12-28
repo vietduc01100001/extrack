@@ -9,4 +9,5 @@ module.exports = (app) => {
   app.use('/settings', requireLogin, require('./settings'));
   app.use('/items', requireLogin, require('./items'));
   app.use('/purchases', requireLogin, require('./purchases'));
+  app.use('/incomes', requireLogin, require('./incomes'));
 };

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const axios = require('../axios');
+const cacheIncome = require('../middlewares/cache-income');
 const {
   handlePurchaseListError,
   handlePurchaseStatsError,
@@ -42,8 +43,7 @@ const getPurchaseList = async (req, res, next) => {
 };
 
 const getPurchaseStats = async (req, res, next) => {
-  const month = req.query.month || new Date().getMonth() + 1;
-  const year = req.query.year || new Date().getFullYear();
+  const { month, year, income } = req;
   const query = `month=${month}&year=${year}&`;
   try {
     await getCache(`/purchases/_stats?${query}`, req, 3600);
@@ -51,6 +51,8 @@ const getPurchaseStats = async (req, res, next) => {
     const { stats } = req.response.data;
     res.render('purchase-stats', {
       dateString: `${toStringMonth(month)} ${year}`,
+      month,
+      year,
       food: stats.food || 0,
       bills: stats.bills || 0,
       health: stats.health || 0,
@@ -60,6 +62,8 @@ const getPurchaseStats = async (req, res, next) => {
       entertainment: stats.entertainment || 0,
       other: stats.other || 0,
       total: Object.values(stats).reduce((p, c) => p + c, 0),
+      income,
+      get balance() { return this.income - this.total }
     });
   } catch (err) {
     handlePurchaseStatsError(err, res, next);
@@ -123,7 +127,7 @@ const deletePurchase = async (req, res, next) => {
 };
 
 router.get('/', getPurchaseList);
-router.get('/stats', getPurchaseStats);
+router.get('/stats', cacheIncome, getPurchaseStats);
 router.get('/:id', getPurchaseDetails);
 router.get('/:id/edit', getPurchaseEdit);
 router.get('/:id/delete', getPurchaseDelete);
