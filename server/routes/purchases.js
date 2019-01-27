@@ -46,7 +46,7 @@ const getPurchaseStats = async (req, res, next) => {
   const { month, year, income } = req;
   const query = `month=${month}&year=${year}&`;
   try {
-    await getCache(`/purchases/_stats?${query}`, req, 3600);
+    await getCache(`/purchases/_stats?${query}`, req, 60);
     if (req.response.status !== 200) return;
     const { stats } = req.response.data;
     res.render('purchase-stats', {
