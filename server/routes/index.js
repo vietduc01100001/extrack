@@ -8,6 +8,7 @@ module.exports = (app) => {
   app.use('/logout', require('./logout'));
   app.use('/settings', requireLogin, require('./settings'));
   app.use('/items', requireLogin, require('./items'));
+  app.use('/cart', requireLogin, require('./cart'));
   app.use('/purchases', requireLogin, require('./purchases'));
   app.use('/incomes', requireLogin, require('./incomes'));
 };

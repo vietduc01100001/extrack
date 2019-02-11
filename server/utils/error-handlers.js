@@ -64,20 +64,6 @@ const handleAddItemError = (err, res, next) => {
   }
 };
 
-const handlePurchaseItemError = (err, res, next) => {
-  if (err.response && err.response.status === 404) {
-    res.render('item-error', { errorMessage: 'Item not found.' });
-  } else if (err.response.status === 422) {
-    res.render('item-error', { errorMessage: 'Validation failed.' });
-    console.log(err.response.data);
-  } else if (err.response.status >= 500) {
-    res.render('item-error', { errorMessage: 'Error purchasing item.' });
-    console.log(err.response.data);
-  } else {
-    next(err);
-  }
-};
-
 const handlePurchaseStatsError = (err, res, next) => {
   if (err.response) {
     res.render('purchase-error', { errorMessage: 'Error fetching purchase stats.' });
@@ -91,7 +77,6 @@ module.exports = {
   handleItemListError: _handleListError('Item'),
   handleItemError: _handleDetailsError('Item'),
   handleAddItemError,
-  handlePurchaseItemError,
   handleEditItemError: _handleEditError('Item'),
   handleDeleteItemError: _handleDeleteError('Item'),
   handlePurchaseListError: _handleListError('Purchase'),

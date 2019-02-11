@@ -1,14 +1,10 @@
 const router = require('express').Router();
 const axios = require('../axios');
-const {
-  validateAddEditItem,
-  validatePurchaseItem,
-} = require('../validations');
+const { validateAddEditItem } = require('../validations');
 const {
   handleItemListError,
   handleItemError,
   handleAddItemError,
-  handlePurchaseItemError,
   handleEditItemError,
   handleDeleteItemError,
 } = require('../utils/error-handlers');
@@ -54,19 +50,6 @@ const getItemDetails = async (req, res, next) => {
     res.render('item-details', {
       ...item,
       costsString: item.costs.join(', ')
-    });
-  } catch (err) {
-    handleItemError(err, res, next);
-  }
-};
-
-const getItemPurchase = async (req, res, next) => {
-  try {
-    await getCache(`/items/${req.params.id}`, req);
-    if (req.response.status !== 200) return;
-    res.render('item-purchase', {
-      ...req.response.data.item,
-      errorMessage: req.errorMessage
     });
   } catch (err) {
     handleItemError(err, res, next);
@@ -122,35 +105,6 @@ const addItem = async (req, res, next) => {
   }
 };
 
-const purchaseItem = async (req, res, next) => {
-  const { isValid, errors } = validatePurchaseItem(req.body);
-  if (!isValid) {
-    req.errorMessage = toString(errors);
-    return next();
-  }
-  try {
-    await getCache(`/items/${req.params.id}`, req);
-    if (req.response.status === 200) {
-      const requestBody = {
-        items: [{
-          _id: req.params.id,
-          name: req.response.data.item.name,
-          cost: parseInt(req.body.cost),
-          quantity: parseInt(req.body.quantity)
-        }],
-        purchaseDate: new Date(),
-        description: req.body.description
-      };
-      const purchasesRes = await axios.getInstance().post('/purchases', requestBody);
-      if (purchasesRes.status !== 201) return;
-      const purchaseId = purchasesRes.data.purchase._id;
-      res.redirect(`/purchases/${purchaseId}`);
-    }
-  } catch (err) {
-    handlePurchaseItemError(err, res, next);
-  }
-};
-
 const editItem = async (req, res, next) => {
   const { isValid, errors } = validateAddEditItem(req.body);
   if (!isValid) {
@@ -186,11 +140,9 @@ const deleteItem = async (req, res, next) => {
 router.get('/', getItemList);
 router.get('/add', getItemAdd);
 router.get('/:id', getItemDetails);
-router.get('/:id/purchase', getItemPurchase);
 router.get('/:id/edit', getItemEdit);
 router.get('/:id/delete', getItemDelete);
 router.post('/add', addItem, getItemAdd);
-router.post('/:id/purchase', purchaseItem, getItemPurchase);
 router.post('/:id/edit', editItem, getItemEdit);
 router.post('/:id/delete', deleteItem);
 
