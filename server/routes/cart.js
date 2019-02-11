@@ -20,6 +20,7 @@ const renderItems = async (req, res) => {
         const quantityInput = `<input type="number" id="${item._id}-quantity" value="1">`;
         return '<div class="item">'
           + `<p>Item: ${item.name}</p>`
+          + `<span class="red-button float-right" onclick="removeItem('${item._id}')">X</span>`
           + '<div>Cost:</div>'
           + costSelection
           + '<div>Quantity:</div>'

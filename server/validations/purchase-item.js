@@ -4,6 +4,10 @@ const { isEmpty } = require('../utils');
 module.exports = (data) => {
   const errors = {};
 
+  if (data.items.length === 0) {
+    errors.items = 'Purchase items are required.';
+  }
+
   data.items.forEach(item => {
     if (!Validator.isInt(item.cost || '')) {
       errors.cost = 'Cost is not a number.';

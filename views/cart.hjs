@@ -18,7 +18,7 @@
   <div class="content">
     <p class="error-message" id="error-message">{{ errorMessage }}</p>
     <p>
-      <span>My cart:</span>
+      <span>My cart: (<span id="items-in-cart">0</span>)</span>
       <span class="float-right">
         <button class="red-button" id="remove-all-btn">Remove all</button>
       </span>
@@ -34,6 +34,7 @@
   const itemList = document.getElementById('item-list');
   const purchaseBtn = document.getElementById('purchase-btn');
   const removeAllBtn = document.getElementById('remove-all-btn');
+  const itemsInCart = document.getElementById('items-in-cart');
   const errorMessage = document.getElementById('error-message');
 
   const fetchCart = async () => {
@@ -41,11 +42,17 @@
     if (items.length > 0) {
       try {
         const response = await axios.post('/cart', { items }, { headers: { 'Content-Type': 'application/json' }});
-        if (response.status === 200) itemList.innerHTML = response.data;
+        if (response.status === 200) {
+          itemList.innerHTML = response.data;
+          itemsInCart.innerText = items.length;
+        }
         else errorMessage.innerText = 'Error fetching items.';
       } catch (err) {
         errorMessage.innerText = 'Error fetching items.'
       }
+    } else {
+      itemList.innerHTML = '';
+      itemsInCart.innerText = 0;
     }
   };
 
@@ -78,6 +85,14 @@
 
   removeAllBtn.onclick = () => {
     localStorage.removeItem('items');
+    itemList.innerHTML = '';
+    itemsInCart.innerText = 0;
+  };
+
+  const removeItem = (id) => {
+    const items = JSON.parse(localStorage.getItem('items')) || [];
+    items.splice(items.indexOf(id), 1);
+    localStorage.setItem('items', JSON.stringify(items));
     fetchCart();
   };
 </script>

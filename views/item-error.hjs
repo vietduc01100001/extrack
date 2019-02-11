@@ -1,1 +1,21 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/stylesheets/style.css"><title>Spending Assistant</title></head><body><div class="container"><div class="title-bar"> <span>Spending Assistant</span></div><div class="content"><p class="error-message">{{ errorMessage }}</p><div> <a href="/items"> <button class="grey-button">Back</button> </a></div></div></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Spending Assistant</title></head>
+<body>
+<div class="container">
+  <div class="title-bar">
+    <span>Spending Assistant</span>
+  </div>
+  <div class="content">
+    <p class="error-message">{{ errorMessage }}</p>
+    <div><a href="/items">
+      <button class="grey-button">Back</button>
+    </a></div>
+  </div>
+</div>
+</body>
+</html>

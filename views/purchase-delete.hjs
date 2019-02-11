@@ -1,1 +1,23 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/stylesheets/style.css"><title>Spending Assistant</title></head><body><div class="container"><div class="title-bar"> <span>Spending Assistant</span></div><div class="content"><form method="POST" action="/purchases/{{ _id }}/delete"><p>Are you sure you want to delete purchase {{ description }}?</p> <button type="submit" class="blue-button">Yes</button> <a href="/purchases/{{ _id }}"> <button type="button" class="grey-button">No</button> </a></form></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Spending Assistant</title></head>
+<body>
+<div class="container">
+  <div class="title-bar">
+    <span>Spending Assistant</span>
+  </div>
+  <div class="content">
+    <form method="POST" action="/purchases/{{ _id }}/delete">
+      <p>Are you sure you want to delete purchase {{ description }}?</p>
+      <button type="submit" class="blue-button">Yes</button>
+      <a href="/purchases/{{ _id }}">
+        <button type="button" class="grey-button">No</button>
+      </a></form>
+  </div>
+</div>
+</body>
+</html>
