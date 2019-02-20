@@ -10,7 +10,9 @@
 <body>
 <div class="container">
   <div class="title-bar">
-    <span>Spending Assistant</span>
+    <a href="/">
+      <span>Spending Assistant</span>
+    </a>
     <span class="float-right">
       <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
       <a href="/"><i class="fas fa-arrow-circle-left"></i></a>

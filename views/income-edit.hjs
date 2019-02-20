@@ -10,7 +10,9 @@
 <body>
 <div class="container">
   <div class="title-bar">
-    <span>Spending Assistant</span>
+    <a href="/">
+      <span>Spending Assistant</span>
+    </a>
     <span class="float-right">
       <a href="/purchases/stats"><i class="fas fa-arrow-circle-left"></i></a>
     </span>
