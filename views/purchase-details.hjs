@@ -40,11 +40,6 @@
     </p>
     <div>
       <span>
-        <a href="/purchases/{{ _id }}/edit">
-          <button type="button" class="grey-button">Edit</button>
-        </a>
-      </span>
-      <span>
         <a href="/purchases/{{ _id }}/delete">
           <button type="button" class="red-button">Delete</button>
         </a>

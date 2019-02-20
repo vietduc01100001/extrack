@@ -82,6 +82,5 @@ module.exports = {
   handlePurchaseListError: _handleListError('Purchase'),
   handlePurchaseStatsError,
   handlePurchaseError: _handleDetailsError('Purchase'),
-  handleEditPurchaseError: _handleEditError('Purchase'),
   handleDeletePurchaseError: _handleDeleteError('Purchase'),
 };
